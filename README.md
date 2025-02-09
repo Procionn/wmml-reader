@@ -17,7 +17,9 @@ c - (create) Allows you to create your own file and write data to it.
 To build a program for a UNIX system, it is enough to install the g++ compiler
 
 sudo dnf install g++
+
 or
+
 sudo apt install g++
 
 then run the project build.
