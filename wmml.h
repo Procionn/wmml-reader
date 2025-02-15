@@ -22,6 +22,9 @@ public:
     void add(std::vector<std::string>& in);
     void reset();
     int sizeRequest();
+    void overwriting (int tag, int field, std::string newStr);
+private:
+    void abcerr (std::string error);
 };
 
 #endif

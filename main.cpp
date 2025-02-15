@@ -9,7 +9,7 @@
 
 
 
-void r(std::string file) {
+void r (std::string& file) {
 	wmml readfile(file);
 	std::vector<std::string> s(readfile.size());
 	while (readfile.read(s)) {
@@ -18,7 +18,8 @@ void r(std::string file) {
 		std::cout << std::endl;
 	}
 }
-void c(std::string file) {
+
+void c (std::string& file) {
 	int size;
 	std::cout << "Enter the grid size: " << std::endl;
 	std::cin >> size;
@@ -36,6 +37,23 @@ void c(std::string file) {
 	editfile.add(c);
 }
 
+void o (std::string& file) {
+	int index;
+	int field;
+	std::string str;
+	r(file);
+	std::cout << "" << std::endl;
+	std::cout << "Enter the object index:" << std::endl;
+	std::cin >> index;
+	std::cout << "Enter the field index:" << std::endl;
+	std::cin >> field;
+	std::cout << "Enter the string:" << std::endl;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	std::getline(std::cin, str);
+	wmml rewritableFile(file);
+	rewritableFile.overwriting(index, field, str);
+}
+
 
 
 
@@ -51,8 +69,13 @@ int main(int argc, char* argv[]) {
 			case 'c':
 				c(file);
 				break;
+			case 'o':
+				o(file);
+				break;
 			case 'd':
 				remove(file.c_str());
+				return 0;
+				break;
 		}
 	}
 	return 0;

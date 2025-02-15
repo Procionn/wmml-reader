@@ -101,23 +101,48 @@ int wmml::sizeRequest() {
 }
 
 
-#if 0
-void wmml::write (std::vector<std::string>& in) {
-	if (!targetFile.is_open()) std::cerr << "Не удалось открыть файл для записи!" << std::endl;
-	if (targetFile.eof()) targetFile.clear();
-    targetFile.seekp(0);
-    targetFile.write(reinterpret_cast<const char*>(&ObjectsInThread), sizeof(ObjectsInThread));
-    for (std::string inputString : in) {
-        unsigned short int stringSize = inputString.size();
-        targetFile.write(reinterpret_cast<const char*>(&stringSize), sizeof(stringSize));
-        targetFile.write(inputString.data(), stringSize);
+void wmml::overwriting (int tag, int field, std::string newStr) {
+    if (field > ObjectsInThread) 
+        abcerr("this fields does not exist in object!");
+    for (;tag != 0; --tag) {
+        if (!read()) 
+            abcerr("this object does not exist in file!");
+    }
+    int mark1 = targetFile.tellp();
+    unsigned short int stringSize;
+    for (; field != 0; --field) {
+        targetFile.read(reinterpret_cast<char*>(&stringSize), sizeof(stringSize));
+        if (targetFile.eof()) 
+            abcerr("the end of the file is reached before the end of the cycle!");
+        std::string str(stringSize, '\0');
+        targetFile.read(&str[0], stringSize);
+    }
+    int mark2 = targetFile.tellp();
+    if (targetFile.eof()) 
+        abcerr("the end of the file is reached before the end of the cycle!");
+    targetFile.read(reinterpret_cast<char*>(&stringSize), sizeof(stringSize));
+    if (stringSize == newStr.size()) {
+        targetFile.write(newStr.data(), stringSize);
+    }
+    else {
+        std::cout << "string: " << newStr << std::endl;
+        std::cout << stringSize << "->" << newStr.size() << std::endl;
+        abcerr("the size of the new value does not match the size of the field being overwritten!");
     }
 }
-
-bool wmml::replase (int tag, std::vector<std::string>& in) {
-	for (;tag != 0; --tag) {
-		read();
-	}
-	int mark1 = targetFile.tellp();
+#if 0
+void wmml::replace (int tag, std::vector<std::string>& in) {
+    if (fields > ObjectsInThread) 
+        abcerr("this fields does not exist in object!");
+    for (; tag != 0; --tag) {
+        if (!read()) 
+            abcerr("this object does not exist in file!");
+    }
+    int mark1 = targetFile.tellp();
 }
 #endif
+
+void wmml::abcerr (std::string error) {
+    std::cerr << error << std::endl;
+    abort();
+}

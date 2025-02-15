@@ -12,6 +12,8 @@ d - (delete) Deletes the selected file and terminates the program.
 
 c - (create) Allows you to create your own file and write data to it.
 
+o - (overwrite) Allows you to overwrite data in an object written to a file. This does not allow you to enter data into the selected field if it is different in size from the existing data.
+
 
 
 To build a program for a UNIX system, it is enough to install the g++ compiler
