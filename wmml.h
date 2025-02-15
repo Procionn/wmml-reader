@@ -23,6 +23,9 @@ public:
     void reset();
     int sizeRequest();
     void overwriting (int tag, int field, std::string newStr);
+    bool skip(int counter);
+    bool skip_sector(int counter); 
+    std::string read_field();
 private:
     void abcerr (std::string error);
 };

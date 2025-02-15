@@ -26,4 +26,4 @@ sudo apt install g++
 
 then run the project build.
 
-g++ main.cpp wmml.h wmml.cpp -o wmml
+g++ main.cpp wmml.cpp -o wmml

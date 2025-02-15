@@ -130,6 +130,40 @@ void wmml::overwriting (int tag, int field, std::string newStr) {
         abcerr("the size of the new value does not match the size of the field being overwritten!");
     }
 }
+
+bool wmml::skip (int counter) {
+    if (!targetFile.is_open()) abcerr("file is not opened");
+    unsigned short int stringSize = 0;
+    if (targetFile.eof()) return false;
+    else {
+        while (counter != 0) {
+            targetFile.read(reinterpret_cast<char*>(&stringSize), sizeof(stringSize));
+            targetFile.seekp(static_cast<int>(targetFile.tellg()) + stringSize);
+            if (targetFile.eof()) return false;
+            --counter;
+        }
+        return true;
+    }
+}
+std::string wmml::read_field () {
+    if (!targetFile.is_open()) abcerr("file is not opened");
+    unsigned short int stringSize;
+    if (targetFile.eof()) return NULL;
+    else {
+        targetFile.read(reinterpret_cast<char*>(&stringSize), sizeof(stringSize));
+        std::string out(stringSize, '\0');
+        targetFile.read(&out[0], stringSize);
+        return out;
+    }
+    return NULL;
+}
+
+bool wmml::skip_sector (int counter) {
+    int i = ObjectsInThread * counter;
+    if (skip(i)) return true;
+    return false;
+}
+
 #if 0
 void wmml::replace (int tag, std::vector<std::string>& in) {
     if (fields > ObjectsInThread) 
