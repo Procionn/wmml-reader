@@ -28,6 +28,9 @@ template <typename T> void print (T value, uint maxsize) {
 template <> void print<char>(char value, uint maxsize) {
     std::cout << std::setw(maxsize) << static_cast<int>(value);
 }
+template <> void print<signed char>(signed char value, uint maxsize) {
+    std::cout << std::setw(maxsize) << static_cast<int>(value);
+}
 template <> void print<wchar_t>(wchar_t value, uint maxsize) {
     std::cout << "printing wchar not supported on linux build";
 }

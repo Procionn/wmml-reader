@@ -27,7 +27,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(wmml)
 
-add_executable(reader
+add_executable(wmml-reader
     main.cpp
 )
-target_link_libraries(reader PRIVATE wmml_static)
+target_link_libraries(wmml-reader PRIVATE wmml_static)
