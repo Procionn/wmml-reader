@@ -50,11 +50,11 @@ void write (const std::vector<wmml::variant>& data, const std::vector<uint>& hea
 
 
 template <typename T> uint get_size (T value) { return std::to_string(value).size(); }
-template <> uint get_size<std::string>(std::string value) { return value.size() + 2; }
-template <> uint get_size<char>(char value) { return 4; }
+template <> uint get_size<std::string>(std::string value) { return value.size(); }
+template <> uint get_size<char>(char value) { return 3; }
 template <> uint get_size<u_char>(u_char value) { return 3; }
 template <> uint get_size<wchar_t>(wchar_t value) { return 6; }
-template <> uint get_size<bool>(bool value) { return 3; }
+template <> uint get_size<bool>(bool value) { return 1; }
 
 template <typename T> void print_type (T value) { std::cout << "unknown type"; }
 template <> void print_type<int>(int) { std::cout << "int"; }
